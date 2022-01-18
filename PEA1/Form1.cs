@@ -18,8 +18,12 @@ namespace PEA1
         public Form1()
         {
             InitializeComponent();
-            comboBox1.SelectedItem = comboBox1.Items[0];
+            comboBox1.SelectedItem = comboBox1.Items[4];
+            comboBoxCrossMethod.SelectedItem = comboBoxCrossMethod.Items[0];
             neighbourComboBox.SelectedItem = neighbourComboBox.Items[0];
+            textBoxMutationValue.Text = "0,2";
+            textBoxCrossValue.Text = "0,8";
+            textBoxPopulationSize.Text = "10";
             labelAlgorithmWorking.Visible = false;
         }
 
@@ -59,6 +63,8 @@ namespace PEA1
 
                         fileHolder = fileReader.Read(fileStream, writeList); //moze sie wysypac, dlatego try catch
                     }
+                    //var fileText = File.ReadAllText(filePath);
+                    //MessageBox.Show(fileText);
                 }
 
                 label2.Text = "";
@@ -84,6 +90,8 @@ namespace PEA1
                         try
                         {
                             var givenTime = Convert.ToDouble(timeTextBox.Text);
+                            givenTime *= 1000;
+
                             labelAlgorithmWorking.Visible = true;
                             labelAlgorithmWorking.Refresh();
                             if (neighbourComboBox.SelectedItem == neighbourComboBox.Items[0])
@@ -110,6 +118,8 @@ namespace PEA1
                         try
                         {
                             var givenTime = Convert.ToDouble(timeTextBox.Text);
+                            givenTime *= 1000;
+
                             labelAlgorithmWorking.Visible = true;
                             labelAlgorithmWorking.Refresh();
                             if (neighbourComboBox.SelectedItem == neighbourComboBox.Items[0] && !checkBoxDiversyfication.Checked)
@@ -161,6 +171,30 @@ namespace PEA1
                         MessageBox.Show(label3.Text + "\n" + label4.Text, "Znaleziono rozwiązanie!", MessageBoxButtons.OK);
                         labelAlgorithmWorking.Refresh();
                         break;
+                    case 4:
+                        try
+                        {
+                            var givenTime = Convert.ToDouble(timeTextBox.Text);
+                            givenTime *= 1000;
+                            var populationSize = Convert.ToInt32(textBoxPopulationSize.Text);
+                            var mutationProbability = Convert.ToDouble(textBoxMutationValue.Text);
+                            var crossProbability = Convert.ToDouble(textBoxCrossValue.Text);
+
+                            labelAlgorithmWorking.Visible = true;
+                            labelAlgorithmWorking.Refresh();
+
+                            Compute.RunGenetic(fileHolder, times, label3, label4, givenTime, neighbourComboBox.SelectedItem.ToString(), 
+                                comboBoxCrossMethod.SelectedItem.ToString(), populationSize, mutationProbability, crossProbability);
+                            
+                            labelAlgorithmWorking.Visible = false;
+                            MessageBox.Show(label3.Text + "\n" + label4.Text, "Znaleziono rozwiązanie!", MessageBoxButtons.OK);
+                            labelAlgorithmWorking.Refresh();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "Zgłoszono wyjątek!", MessageBoxButtons.OK);
+                        }
+                        break;
                     default:
                         MessageBox.Show("Wybierz poprawny algorytm z rozsuwanej listy", "", MessageBoxButtons.OK);
                         break;
@@ -188,6 +222,7 @@ namespace PEA1
                         try
                         {
                             var givenTime = Convert.ToDouble(timeTextBox.Text);
+                            givenTime *= 1000;
 
                             if (neighbourComboBox.SelectedItem == neighbourComboBox.Items[0])
                             {
@@ -245,6 +280,7 @@ namespace PEA1
                         try
                         {
                             var givenTime = Convert.ToDouble(timeTextBox.Text);
+                            givenTime *= 1000;
 
                             if (neighbourComboBox.SelectedItem == neighbourComboBox.Items[0] && !checkBoxDiversyfication.Checked)
                             {
@@ -264,7 +300,7 @@ namespace PEA1
                                 }
                                 label3.Text += "0";
                                 avgTime = times.Average();
-                                label4.Text = "Średni czas wykonania algorytmu SA: " + avgTime.ToString() + " ms";
+                                label4.Text = "Średni czas wykonania algorytmu TS: " + avgTime.ToString() + " ms";
 
                                 MessageBox.Show(label3.Text + "\n" + label4.Text, "Znaleziono rozwiązanie!", MessageBoxButtons.OK);
                             }
@@ -286,7 +322,7 @@ namespace PEA1
                                 }
                                 label3.Text += "0";
                                 avgTime = times.Average();
-                                label4.Text = "Średni czas wykonania algorytmu SA: " + avgTime.ToString() + " ms";
+                                label4.Text = "Średni czas wykonania algorytmu TS: " + avgTime.ToString() + " ms";
 
                                 MessageBox.Show(label3.Text + "\n" + label4.Text, "Znaleziono rozwiązanie!", MessageBoxButtons.OK);
                             }
@@ -308,7 +344,7 @@ namespace PEA1
                                 }
                                 label3.Text += "0";
                                 avgTime = times.Average();
-                                label4.Text = "Średni czas wykonania algorytmu SA: " + avgTime.ToString() + " ms";
+                                label4.Text = "Średni czas wykonania algorytmu TS: " + avgTime.ToString() + " ms";
 
                                 MessageBox.Show(label3.Text + "\n" + label4.Text, "Znaleziono rozwiązanie!", MessageBoxButtons.OK);
                             }
@@ -330,7 +366,7 @@ namespace PEA1
                                 }
                                 label3.Text += "0";
                                 avgTime = times.Average();
-                                label4.Text = "Średni czas wykonania algorytmu SA: " + avgTime.ToString() + " ms";
+                                label4.Text = "Średni czas wykonania algorytmu TS: " + avgTime.ToString() + " ms";
 
                                 MessageBox.Show(label3.Text + "\n" + label4.Text, "Znaleziono rozwiązanie!", MessageBoxButtons.OK);
                             }
@@ -358,7 +394,7 @@ namespace PEA1
                         }
                         label3.Text += "0";
                         avgTime = times.Average();
-                        label4.Text = "Średni czas wykonania algorytmu SA: " + avgTime.ToString() + " ms";
+                        label4.Text = "Średni czas wykonania algorytmu BF: " + avgTime.ToString() + " ms";
 
                         MessageBox.Show(label3.Text + "\n" + label4.Text, "Znaleziono rozwiązanie!", MessageBoxButtons.OK);
                         break;
@@ -380,10 +416,52 @@ namespace PEA1
                         }
                         label3.Text += "0";
                         avgTime = times.Average();
-                        label4.Text = "Średni czas wykonania algorytmu SA: " + avgTime.ToString() + " ms";
+                        label4.Text = "Średni czas wykonania algorytmu DP: " + avgTime.ToString() + " ms";
 
                         MessageBox.Show(label3.Text + "\n" + label4.Text, "Znaleziono rozwiązanie!", MessageBoxButtons.OK);
 
+                        break;
+
+                    case 4:
+                        times.Clear();
+                        try
+                        {
+                            var givenTime = Convert.ToDouble(timeTextBox.Text);
+                            givenTime *= 1000;
+                            var populationSize = Convert.ToInt32(textBoxPopulationSize.Text);
+                            var mutationProbability = Convert.ToDouble(textBoxMutationValue.Text);
+                            var crossProbability = Convert.ToDouble(textBoxCrossValue.Text);
+
+                            labelAlgorithmWorking.Visible = true;
+                            labelAlgorithmWorking.Refresh();
+
+                            for (int i = 0; i < howManyTimes; i++)
+                                Compute.RunGenetic(fileHolder, times, label3, label4, givenTime, neighbourComboBox.SelectedItem.ToString(),
+                                comboBoxCrossMethod.SelectedItem.ToString(), populationSize, mutationProbability, crossProbability);
+
+                            labelAlgorithmWorking.Visible = false;
+                            labelAlgorithmWorking.Refresh();
+
+                            List<int> savedCostsGenetic = results.Keys.ToList();
+                            savedCostsGenetic.Sort();
+                            int medianCostGenetic = savedCostsGenetic[Convert.ToInt32((savedCostsGenetic.Count-1)/2)];
+
+                            label3.Text = "Najlepsza (uśredniona) droga: " + medianCostGenetic + " dla ścieżki: ";
+                            foreach (int city in results[medianCostGenetic])
+                            {
+                                label3.Text += city.ToString() + " ";
+                            }
+                            label3.Text += "0";
+                            avgTime = times.Average();
+                            label4.Text = "Średni czas wykonania algorytmu Genetycznego: " + avgTime.ToString() + " ms";
+
+                            MessageBox.Show(label3.Text + "\n" + label4.Text, "Znaleziono rozwiązanie!", MessageBoxButtons.OK);
+                            labelAlgorithmWorking.Refresh();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "Zgłoszono wyjątek!", MessageBoxButtons.OK);
+                        }
                         break;
                     default:
                         MessageBox.Show("Wybierz poprawny algorytm z rozsuwanej listy", "", MessageBoxButtons.OK);
@@ -443,6 +521,63 @@ namespace PEA1
         private void trackBarExecuteTimes_Scroll(object sender, EventArgs e)
         {
             button3.Text = "Wykonaj x" + trackBarExecuteTimes.Value;
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(comboBox1.SelectedIndex == 2 || comboBox1.SelectedIndex == 3)
+            {
+                timeLabel.Visible = false;
+                timeTextBox.Visible = false;
+                neighbourLabel.Visible = false;
+                neighbourComboBox.Visible = false;
+                checkBoxDiversyfication.Visible = false;
+
+                labelPopulationSize.Visible = false;
+                textBoxPopulationSize.Visible = false;
+                labelMutationValue.Visible = false;
+                textBoxMutationValue.Visible = false;
+                labelMutationMethod.Visible = false;
+                comboBoxCrossMethod.Visible = false;
+                labelCrossValue.Visible = false;
+                textBoxCrossValue.Visible = false;
+            }
+            else if (comboBox1.SelectedIndex == 0 || comboBox1.SelectedIndex == 1)
+            {
+                timeLabel.Visible = true;
+                timeTextBox.Visible = true;
+                neighbourLabel.Text = "Sąsiedztwo:";
+                neighbourLabel.Visible = true;
+                neighbourComboBox.Visible = true;
+                checkBoxDiversyfication.Visible = true;
+
+                labelPopulationSize.Visible = false;
+                textBoxPopulationSize.Visible = false;
+                labelMutationValue.Visible = false;
+                textBoxMutationValue.Visible = false;
+                labelMutationMethod.Visible = false;
+                comboBoxCrossMethod.Visible = false;
+                labelCrossValue.Visible = false;
+                textBoxCrossValue.Visible = false;
+            }
+            else
+            {
+                timeLabel.Visible = true;
+                timeTextBox.Visible = true;
+                neighbourLabel.Visible = true;
+                neighbourLabel.Text = "Mutacja:";
+                neighbourComboBox.Visible = true;
+                checkBoxDiversyfication.Visible = false;
+
+                labelPopulationSize.Visible = true;
+                textBoxPopulationSize.Visible = true;
+                labelMutationValue.Visible = true;
+                textBoxMutationValue.Visible = true;
+                labelMutationMethod.Visible = true;
+                comboBoxCrossMethod.Visible = true;
+                labelCrossValue.Visible = true;
+                textBoxCrossValue.Visible = true;
+            }
         }
     }
 }

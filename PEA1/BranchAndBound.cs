@@ -10,7 +10,7 @@ namespace PEA1
         {
         }
 
-        public new void FindBestSolution()
+        public void FindBestSolution()
         {
 
 

@@ -47,6 +47,14 @@ namespace PEA1
             this.checkBoxDiversyfication = new System.Windows.Forms.CheckBox();
             this.trackBarExecuteTimes = new System.Windows.Forms.TrackBar();
             this.labelAlgorithmWorking = new System.Windows.Forms.Label();
+            this.labelPopulationSize = new System.Windows.Forms.Label();
+            this.textBoxPopulationSize = new System.Windows.Forms.TextBox();
+            this.labelMutationValue = new System.Windows.Forms.Label();
+            this.labelCrossValue = new System.Windows.Forms.Label();
+            this.comboBoxCrossMethod = new System.Windows.Forms.ComboBox();
+            this.labelMutationMethod = new System.Windows.Forms.Label();
+            this.textBoxMutationValue = new System.Windows.Forms.TextBox();
+            this.textBoxCrossValue = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarExecuteTimes)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,11 +70,13 @@ namespace PEA1
             "SA",
             "TS",
             "BF",
-            "DP"});
+            "DP",
+            "Genethic"});
             this.comboBox1.Location = new System.Drawing.Point(249, 102);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(161, 28);
             this.comboBox1.TabIndex = 1;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -96,7 +106,7 @@ namespace PEA1
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(56, 202);
+            this.label2.Location = new System.Drawing.Point(56, 298);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 20);
             this.label2.TabIndex = 4;
@@ -116,7 +126,7 @@ namespace PEA1
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(56, 254);
+            this.label3.Location = new System.Drawing.Point(56, 350);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(121, 20);
             this.label3.TabIndex = 6;
@@ -125,7 +135,7 @@ namespace PEA1
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(56, 302);
+            this.label4.Location = new System.Drawing.Point(56, 398);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(188, 20);
             this.label4.TabIndex = 7;
@@ -143,7 +153,7 @@ namespace PEA1
             // 
             // exitButton
             // 
-            this.exitButton.Location = new System.Drawing.Point(643, 373);
+            this.exitButton.Location = new System.Drawing.Point(643, 469);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(128, 65);
             this.exitButton.TabIndex = 9;
@@ -154,7 +164,7 @@ namespace PEA1
             // readRawButton
             // 
             this.readRawButton.Enabled = false;
-            this.readRawButton.Location = new System.Drawing.Point(56, 373);
+            this.readRawButton.Location = new System.Drawing.Point(56, 469);
             this.readRawButton.Name = "readRawButton";
             this.readRawButton.Size = new System.Drawing.Size(225, 65);
             this.readRawButton.TabIndex = 10;
@@ -168,9 +178,9 @@ namespace PEA1
             this.timeLabel.AutoSize = true;
             this.timeLabel.Location = new System.Drawing.Point(56, 147);
             this.timeLabel.Name = "timeLabel";
-            this.timeLabel.Size = new System.Drawing.Size(250, 20);
+            this.timeLabel.Size = new System.Drawing.Size(237, 20);
             this.timeLabel.TabIndex = 11;
-            this.timeLabel.Text = "Podaj czas działania algorytmu [ms]:";
+            this.timeLabel.Text = "Podaj czas działania algorytmu [s]:";
             // 
             // timeTextBox
             // 
@@ -226,17 +236,93 @@ namespace PEA1
             this.labelAlgorithmWorking.AutoSize = true;
             this.labelAlgorithmWorking.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelAlgorithmWorking.ForeColor = System.Drawing.Color.LimeGreen;
-            this.labelAlgorithmWorking.Location = new System.Drawing.Point(56, 341);
+            this.labelAlgorithmWorking.Location = new System.Drawing.Point(56, 437);
             this.labelAlgorithmWorking.Name = "labelAlgorithmWorking";
             this.labelAlgorithmWorking.Size = new System.Drawing.Size(242, 21);
             this.labelAlgorithmWorking.TabIndex = 17;
             this.labelAlgorithmWorking.Text = "Trwa działanie algorytmu...";
             // 
+            // labelPopulationSize
+            // 
+            this.labelPopulationSize.AutoSize = true;
+            this.labelPopulationSize.Location = new System.Drawing.Point(56, 198);
+            this.labelPopulationSize.Name = "labelPopulationSize";
+            this.labelPopulationSize.Size = new System.Drawing.Size(263, 20);
+            this.labelPopulationSize.TabIndex = 18;
+            this.labelPopulationSize.Text = "Podaj wielkość populacji początkowej:";
+            // 
+            // textBoxPopulationSize
+            // 
+            this.textBoxPopulationSize.Location = new System.Drawing.Point(325, 195);
+            this.textBoxPopulationSize.Name = "textBoxPopulationSize";
+            this.textBoxPopulationSize.Size = new System.Drawing.Size(85, 27);
+            this.textBoxPopulationSize.TabIndex = 19;
+            // 
+            // labelMutationValue
+            // 
+            this.labelMutationValue.AutoSize = true;
+            this.labelMutationValue.Location = new System.Drawing.Point(430, 198);
+            this.labelMutationValue.Name = "labelMutationValue";
+            this.labelMutationValue.Size = new System.Drawing.Size(213, 20);
+            this.labelMutationValue.TabIndex = 20;
+            this.labelMutationValue.Text = "Współczynnik mutacji (0.0-1.0):";
+            // 
+            // labelCrossValue
+            // 
+            this.labelCrossValue.AutoSize = true;
+            this.labelCrossValue.Location = new System.Drawing.Point(430, 244);
+            this.labelCrossValue.Name = "labelCrossValue";
+            this.labelCrossValue.Size = new System.Drawing.Size(245, 20);
+            this.labelCrossValue.TabIndex = 21;
+            this.labelCrossValue.Text = "Współczynnik krzyżowania (0.0-1.0):";
+            // 
+            // comboBoxCrossMethod
+            // 
+            this.comboBoxCrossMethod.FormattingEnabled = true;
+            this.comboBoxCrossMethod.Items.AddRange(new object[] {
+            "PMX",
+            "OX"});
+            this.comboBoxCrossMethod.Location = new System.Drawing.Point(312, 241);
+            this.comboBoxCrossMethod.Name = "comboBoxCrossMethod";
+            this.comboBoxCrossMethod.Size = new System.Drawing.Size(98, 28);
+            this.comboBoxCrossMethod.TabIndex = 22;
+            // 
+            // labelMutationMethod
+            // 
+            this.labelMutationMethod.AutoSize = true;
+            this.labelMutationMethod.Location = new System.Drawing.Point(56, 244);
+            this.labelMutationMethod.Name = "labelMutationMethod";
+            this.labelMutationMethod.Size = new System.Drawing.Size(207, 20);
+            this.labelMutationMethod.TabIndex = 23;
+            this.labelMutationMethod.Text = "Wybierz metodę krzyżowania:";
+            // 
+            // textBoxMutationValue
+            // 
+            this.textBoxMutationValue.Location = new System.Drawing.Point(676, 195);
+            this.textBoxMutationValue.Name = "textBoxMutationValue";
+            this.textBoxMutationValue.Size = new System.Drawing.Size(95, 27);
+            this.textBoxMutationValue.TabIndex = 24;
+            // 
+            // textBoxCrossValue
+            // 
+            this.textBoxCrossValue.Location = new System.Drawing.Point(676, 241);
+            this.textBoxCrossValue.Name = "textBoxCrossValue";
+            this.textBoxCrossValue.Size = new System.Drawing.Size(95, 27);
+            this.textBoxCrossValue.TabIndex = 25;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 565);
+            this.Controls.Add(this.textBoxCrossValue);
+            this.Controls.Add(this.textBoxMutationValue);
+            this.Controls.Add(this.labelMutationMethod);
+            this.Controls.Add(this.comboBoxCrossMethod);
+            this.Controls.Add(this.labelCrossValue);
+            this.Controls.Add(this.labelMutationValue);
+            this.Controls.Add(this.textBoxPopulationSize);
+            this.Controls.Add(this.labelPopulationSize);
             this.Controls.Add(this.labelAlgorithmWorking);
             this.Controls.Add(this.checkBoxDiversyfication);
             this.Controls.Add(this.neighbourComboBox);
@@ -255,7 +341,7 @@ namespace PEA1
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.trackBarExecuteTimes);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "PEA_TSP";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarExecuteTimes)).EndInit();
             this.ResumeLayout(false);
@@ -283,6 +369,14 @@ namespace PEA1
         private System.Windows.Forms.ComboBox neighbourComboBox;
         private System.Windows.Forms.CheckBox checkBoxDiversyfication;
         private System.Windows.Forms.Label labelAlgorithmWorking;
+        private System.Windows.Forms.Label labelPopulationSize;
+        private System.Windows.Forms.TextBox textBoxPopulationSize;
+        private System.Windows.Forms.Label labelMutationValue;
+        private System.Windows.Forms.Label labelCrossValue;
+        private System.Windows.Forms.ComboBox comboBoxCrossMethod;
+        private System.Windows.Forms.Label labelMutationMethod;
+        private System.Windows.Forms.TextBox textBoxMutationValue;
+        private System.Windows.Forms.TextBox textBoxCrossValue;
     }
 }
 

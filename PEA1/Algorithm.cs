@@ -30,7 +30,7 @@ namespace PEA1
             return bestPath;
         }
 
-        protected int PathCost(int[] path)  //liczenie kosztu sciezki
+        protected int PathCost(int[] path)                      //liczenie kosztu sciezki
         {
             int cost = 0;
             for (int i = 0; i < cityAmmount - 1; i++)
