@@ -25,7 +25,7 @@ namespace PEA1
             {
                 int minVal = geneticAlgorithm.GetBestCost();
                 int[] minPath = geneticAlgorithm.GetBestPath();
-                results.Add(minVal, minPath);
+                results[minVal] = minPath;
             }
 
             TimeSpan ts = stopWatch.Elapsed;

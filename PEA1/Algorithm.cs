@@ -139,15 +139,24 @@ namespace PEA1
 
         protected int[] NextPath(int[] currentPath, string neighbourType)
         {
-            int firstRandomIndex = random.Next(1, cityAmmount);
-            int secondRandomIndex = firstRandomIndex;
-            while (firstRandomIndex == secondRandomIndex)
-            {
-                secondRandomIndex = random.Next(1, cityAmmount);
-            }
+            int[] randIndexes = TwoRandomIndexes(1, cityAmmount);
+            int firstRandomIndex = randIndexes[0];
+            int secondRandomIndex = randIndexes[1];
 
             return NextPath(currentPath, neighbourType, firstRandomIndex, secondRandomIndex);
         }
 
+        protected int[] TwoRandomIndexes(int startPoint, int endPoint)
+        {
+            int firstRandomIndex = random.Next(startPoint, endPoint);
+            int secondRandomIndex = random.Next(startPoint, endPoint);
+            while (firstRandomIndex == secondRandomIndex)
+                secondRandomIndex = random.Next(startPoint, endPoint);
+
+            if (firstRandomIndex < secondRandomIndex)
+                return new int[] { firstRandomIndex, secondRandomIndex };
+            else
+                return new int[] { secondRandomIndex, firstRandomIndex };
+        }
     }
 }

@@ -172,23 +172,40 @@ namespace PEA1
                         labelAlgorithmWorking.Refresh();
                         break;
                     case 4:
+                        if (timeTextBox.Text == "")
+                        {
+                            MessageBox.Show("Nie podano czasu!", "Brak czasu", MessageBoxButtons.OK);
+                            break;
+                        }
+                        var givenTime1 = Convert.ToDouble(timeTextBox.Text);
+                        givenTime1 *= 1000;
+                        if (givenTime1 <= 0)
+                        {
+                            MessageBox.Show("Czas nie może być równy 0!", "Zerowy czas", MessageBoxButtons.OK);
+                            break;
+                        }
+                        var populationSize = Convert.ToInt32(textBoxPopulationSize.Text);
+                        if (populationSize < 2)
+                        {
+                            MessageBox.Show("Populacja nie może być mniejsza niż 2!", "Za mała populacja", MessageBoxButtons.OK);
+                            break;
+                        }
+                        var mutationProbability = Convert.ToDouble(textBoxMutationValue.Text);
+                        var crossProbability = Convert.ToDouble(textBoxCrossValue.Text);
+
+                        labelAlgorithmWorking.Visible = true;
+                        labelAlgorithmWorking.Refresh();
+
+                        Compute.RunGenetic(fileHolder, times, label3, label4, givenTime1, neighbourComboBox.SelectedItem.ToString(),
+                            comboBoxCrossMethod.SelectedItem.ToString(), populationSize, mutationProbability, crossProbability);
+
+                        labelAlgorithmWorking.Visible = false;
+                        MessageBox.Show(label3.Text + "\n" + label4.Text, "Znaleziono rozwiązanie!", MessageBoxButtons.OK);
+                        labelAlgorithmWorking.Refresh();
+
                         try
                         {
-                            var givenTime = Convert.ToDouble(timeTextBox.Text);
-                            givenTime *= 1000;
-                            var populationSize = Convert.ToInt32(textBoxPopulationSize.Text);
-                            var mutationProbability = Convert.ToDouble(textBoxMutationValue.Text);
-                            var crossProbability = Convert.ToDouble(textBoxCrossValue.Text);
 
-                            labelAlgorithmWorking.Visible = true;
-                            labelAlgorithmWorking.Refresh();
-
-                            Compute.RunGenetic(fileHolder, times, label3, label4, givenTime, neighbourComboBox.SelectedItem.ToString(), 
-                                comboBoxCrossMethod.SelectedItem.ToString(), populationSize, mutationProbability, crossProbability);
-                            
-                            labelAlgorithmWorking.Visible = false;
-                            MessageBox.Show(label3.Text + "\n" + label4.Text, "Znaleziono rozwiązanie!", MessageBoxButtons.OK);
-                            labelAlgorithmWorking.Refresh();
                         }
                         catch (Exception ex)
                         {
@@ -424,10 +441,11 @@ namespace PEA1
 
                     case 4:
                         times.Clear();
+
                         try
                         {
-                            var givenTime = Convert.ToDouble(timeTextBox.Text);
-                            givenTime *= 1000;
+                            var givenTime1 = Convert.ToDouble(timeTextBox.Text);
+                            givenTime1 *= 1000;
                             var populationSize = Convert.ToInt32(textBoxPopulationSize.Text);
                             var mutationProbability = Convert.ToDouble(textBoxMutationValue.Text);
                             var crossProbability = Convert.ToDouble(textBoxCrossValue.Text);
@@ -436,15 +454,15 @@ namespace PEA1
                             labelAlgorithmWorking.Refresh();
 
                             for (int i = 0; i < howManyTimes; i++)
-                                Compute.RunGenetic(fileHolder, times, label3, label4, givenTime, neighbourComboBox.SelectedItem.ToString(),
-                                comboBoxCrossMethod.SelectedItem.ToString(), populationSize, mutationProbability, crossProbability);
+                                Compute.RunGenetic(fileHolder, times, label3, label4, givenTime1, neighbourComboBox.SelectedItem.ToString(),
+                                comboBoxCrossMethod.SelectedItem.ToString(), populationSize, mutationProbability, crossProbability, results);
 
                             labelAlgorithmWorking.Visible = false;
                             labelAlgorithmWorking.Refresh();
 
                             List<int> savedCostsGenetic = results.Keys.ToList();
                             savedCostsGenetic.Sort();
-                            int medianCostGenetic = savedCostsGenetic[Convert.ToInt32((savedCostsGenetic.Count-1)/2)];
+                            int medianCostGenetic = savedCostsGenetic[Convert.ToInt32((savedCostsGenetic.Count - 1) / 2)];
 
                             label3.Text = "Najlepsza (uśredniona) droga: " + medianCostGenetic + " dla ścieżki: ";
                             foreach (int city in results[medianCostGenetic])
