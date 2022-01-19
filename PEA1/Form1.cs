@@ -172,44 +172,42 @@ namespace PEA1
                         labelAlgorithmWorking.Refresh();
                         break;
                     case 4:
-                        if (timeTextBox.Text == "")
-                        {
-                            MessageBox.Show("Nie podano czasu!", "Brak czasu", MessageBoxButtons.OK);
-                            break;
-                        }
-                        var givenTime1 = Convert.ToDouble(timeTextBox.Text);
-                        givenTime1 *= 1000;
-                        if (givenTime1 <= 0)
-                        {
-                            MessageBox.Show("Czas nie może być równy 0!", "Zerowy czas", MessageBoxButtons.OK);
-                            break;
-                        }
-                        var populationSize = Convert.ToInt32(textBoxPopulationSize.Text);
-                        if (populationSize < 2)
-                        {
-                            MessageBox.Show("Populacja nie może być mniejsza niż 2!", "Za mała populacja", MessageBoxButtons.OK);
-                            break;
-                        }
-                        var mutationProbability = Convert.ToDouble(textBoxMutationValue.Text);
-                        var crossProbability = Convert.ToDouble(textBoxCrossValue.Text);
-
-                        labelAlgorithmWorking.Visible = true;
-                        labelAlgorithmWorking.Refresh();
-
-                        Compute.RunGenetic(fileHolder, times, label3, label4, givenTime1, neighbourComboBox.SelectedItem.ToString(),
-                            comboBoxCrossMethod.SelectedItem.ToString(), populationSize, mutationProbability, crossProbability);
-
-                        labelAlgorithmWorking.Visible = false;
-                        MessageBox.Show(label3.Text + "\n" + label4.Text, "Znaleziono rozwiązanie!", MessageBoxButtons.OK);
-                        labelAlgorithmWorking.Refresh();
-
                         try
                         {
+                            if (timeTextBox.Text == "")
+                            {
+                                MessageBox.Show("Nie podano czasu!", "Brak czasu", MessageBoxButtons.OK);
+                                break;
+                            }
+                            var givenTime1 = Convert.ToDouble(timeTextBox.Text);
+                            givenTime1 *= 1000;
+                            if (givenTime1 <= 0)
+                            {
+                                MessageBox.Show("Czas nie może być równy 0!", "Zerowy czas", MessageBoxButtons.OK);
+                                break;
+                            }
+                            var populationSize = Convert.ToInt32(textBoxPopulationSize.Text);
+                            if (populationSize < 2)
+                            {
+                                MessageBox.Show("Populacja nie może być mniejsza niż 2!", "Za mała populacja", MessageBoxButtons.OK);
+                                break;
+                            }
+                            var mutationProbability = Convert.ToDouble(textBoxMutationValue.Text);
+                            var crossProbability = Convert.ToDouble(textBoxCrossValue.Text);
 
+                            labelAlgorithmWorking.Visible = true;
+                            labelAlgorithmWorking.Refresh();
+
+                            Compute.RunGenetic(fileHolder, times, label3, label4, givenTime1, neighbourComboBox.SelectedItem.ToString(),
+                                comboBoxCrossMethod.SelectedItem.ToString(), populationSize, mutationProbability, crossProbability);
+
+                            labelAlgorithmWorking.Visible = false;
+                            MessageBox.Show(label3.Text + "\n" + label4.Text, "Znaleziono rozwiązanie!", MessageBoxButtons.OK);
+                            labelAlgorithmWorking.Refresh();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.Message, "Zgłoszono wyjątek!", MessageBoxButtons.OK);
+                            MessageBox.Show($"{ex.Message} \n\n {ex.StackTrace}", "Zgłoszono wyjątek!", MessageBoxButtons.OK);
                         }
                         break;
                     default:
